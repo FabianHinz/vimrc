@@ -13,34 +13,6 @@ runtime! debian.vim
 set nocompatible
 
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" Vundle
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-syntax off
-filetype plugin indent off
-
-call vundle#begin('~/.vim/bundle/Vundle.vim')
-
-Plugin 'VundleVim/Vundle.vim'
-
-" Plugins
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'derekwyatt/vim-fswitch'
-Plugin 'honza/vim-snippets'
-Plugin 'jiangmiao/auto-pairs.git'
-Plugin 'kien/ctrlp.vim'
-Plugin 'lervag/vimtex'
-Plugin 'scrooloose/nerdcommenter'
-Plugin 'scrooloose/nerdtree'
-Plugin 'Yggdroot/indentLine.git'
-Plugin 'jelera/vim-javascript-syntax'
-Plugin 'othree/javascript-libraries-syntax.vim'
-
-call vundle#end()
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "
 " General behavior of Vim
@@ -282,52 +254,7 @@ set background=dark
 "   torte
 "   zellner
 "
-colorscheme solarized 
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" Solarized
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" This is set to 16 by default, meaning that Solarized will attempt to
-" use the standard 16 colors of your terminal emulator. You will need
-" to set those colors to the correct Solarized values either manually
-" or by importing one of the many colorscheme available for popular
-" terminal emulators and Xresources.
-"g:solarized_termcolors=256
-
-" If you use a terminal emulator with a transparent background and
-" Solarized isn't displaying the background color transparently, set
-" this to 1 and Solarized will use the default (transparent)
-" background of the terminal emulator. urxvt required this in my
-" testing; iTerm2 did not.
-"g:solarized_termtrans =   0       |   1
-
-" For test purposes only; forces Solarized to use the 256 degraded
-" color mode to test the approximate color values for accuracy.
-"g:solarized_degrade   =   0       |   1
-
-" If you wish to stop Solarized from displaying bold, underlined or
-" italicized typefaces, simply assign a zero value to the appropriate
-" variable, for example: let g:solarized_italic=0
-"g:solarized_bold      =   1       |   0
-"g:solarized_underline =   1       |   0
-"g:solarized_italic    =   1       |   0
-
-" Stick with normal! It's been carefully tested. Setting this option
-" to high or low does use the same Solarized palette but simply shifts
-" some values up or down in order to expand or compress the tonal
-" range displayed.
-"g:solarized_contrast  =   "normal"|   "high" or "low"
-
-" Special characters such as trailing whitespace, tabs, newlines, when
-" displayed using :set list can be set to one of three levels
-" depending on your needs.  Default value is normal with high and low
-" options.
-"g:solarized_visibility=   "normal"|   "high" or "low"
-"g:solarized_visibility="low"
+"colorscheme solarized 
 
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -611,9 +538,6 @@ nnoremap <special> <F8> :DeleteTrailingWs<CR>
 " Show the list of compiler statements
 nnoremap <special> <F12> :cl<CR>
 
-" If pressing F9 , toggle the tag list plugin window
-map <silent> <F9> :TlistUpdate<CR>:TlistToggle<CR>
-
 " Pressing  ,t  will open the alternate file in a new tab.
 nnoremap <silent> ,t :AT<CR>
 
@@ -648,95 +572,3 @@ function! VisualSelection(direction) range
   let @" = l:saved_reg
 endfunction
 
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" Tag list
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-let Tlist_GainFocus_On_ToggleOpen = 1
-let Tlist_Close_On_Select = 1
-let Tlist_Exit_OnlyWindow = 1
-let Tlist_Show_One_File = 1
-let Tlist_Sort_Type = "name"
-let Tlist_WinWidth = 80
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" LaTeX
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" latex is sorted by order
-let Tlist_tex_settings = 'latex;l:labels;s:sections;t:subsections;u:subsubsections;p:paragraphs'
-au BufReadPre *.tex let Tlist_Sort_Type = "order"
-
-" IMPORTANT: grep will sometimes skip displaying the file name if you
-" search in a singe file. This will confuse Latex-Suite. Set your grep
-" program to always generate a file-name.
-set grepprg=grep\ -nH\ $*
-
-" OPTIONAL: Starting with Vim 7, the filetype of empty .tex files
-" defaults to 'plaintex' instead of 'tex', which results in vim-latex
-" not being loaded.  The following changes the default filetype back
-" to 'tex':
-let g:tex_flavor='latex'
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" Make
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Define filetype for Makefiles
-augroup filetype
- au! BufRead,BufNewFile *Makefile* set filetype=make
-augroup END
-
-" In Makefiles don't expand tabs to spaces
-augroup filetype
-  au! FileType make set noexpandtab
-augroup END
-
-" Set the default make program
-set makeprg=make\ -j4
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" C/C++
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-augroup filetype
-  au! BufNewFile,BufRead *.c,*.cpp,*.cc,*.h,*.hpp
-  au BufNewFile,BufRead set tabstop=2
-  au BufNewFile,BufRead set expandtab
-  au BufNewFile,BufRead set softtabstop=2
-  au BufNewFile,BufRead set shiftwidth=2
-  au BufNewFile,BufRead set cindent
-augroup END
-
-"
-" Allows to jump to the alternate file, e.g. the header file for a C
-" file
-"
-let g:alternateNoDefaultAlternate = 1
-let g:alternateExtensions_h = "c,cpp,cxx,cc,CC,cpp.h"
-
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"
-" Project Specific Settings
-"
-" Make sure this is always at the end of your vimrc file!
-"
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" include per-project settings
-if filereadable(".project.vim")
- source .project.vim
-endif
